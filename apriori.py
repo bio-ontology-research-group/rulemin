@@ -69,6 +69,7 @@ def run():
 
     print(len(counter))
     pool = Pool(48)
+    gf = gzip.open('data/results.gz', 'w')
     while len(counter) > 0:
         cnts = pool.map(next_level, terms)
         cnt = sum(cnts)
@@ -77,6 +78,11 @@ def run():
         for s, c in cnt.items():
             if c < e:
                 del cnt[s]
+            else:
+                gf.write(c)
+                for term in s:
+                    gf.write('\t' + term_list[term])
+                gf.write('\n')
         counter = cnt
 
 
